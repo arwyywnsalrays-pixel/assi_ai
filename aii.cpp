@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 #include <set>
-#include <map>
+#include <tuple>
 #include <cmath>
 #include <algorithm>
 
@@ -13,35 +13,99 @@ using namespace std;
 ====================================================*/
 class State {
 public:
-    int x, y;
-    int fuel;
+    int x, y, fuel;
     bool c1, c2, c3, c4;
 
-    int g; // path cost
-    int h; // heuristic
-    int f; // total cost
-
+    int g, h, f;
     string path;
 
-    State(int x = 1, int y = 1, int fuel = 20,
-          bool c1 = false, bool c2 = false,
-          bool c3 = false, bool c4 = false) {
+    State(int x=1,int y=1,int fuel=20,
+          bool c1=false,bool c2=false,
+          bool c3=false,bool c4=false) {
 
-        this->x = x;
-        this->y = y;
-        this->fuel = fuel;
-        this->c1 = c1;
-        this->c2 = c2;
-        this->c3 = c3;
-        this->c4 = c4;
+        this->x=x;
+        this->y=y;
+        this->fuel=fuel;
+        this->c1=c1;
+        this->c2=c2;
+        this->c3=c3;
+        this->c4=c4;
 
-        g = h = f = 0;
-        path = "";
+        g=h=f=0;
+        path="";
     }
 
     bool operator<(const State& other) const {
         return tie(x,y,fuel,c1,c2,c3,c4) <
                tie(other.x,other.y,other.fuel,
-               other.c1,other.c2,other.c3,other.c4);
+                   other.c1,other.c2,other.c3,other.c4);
     }
 };
+
+/*====================================================
+   GRID WORLD
+====================================================*/
+class GridWorld {
+public:
+
+    bool isBlocked(int x,int y){
+        return (x==4 && (y==7 || y==8));
+    }
+
+    bool isValid(int x,int y){
+        if(x<1 || x>10 || y<1 || y>10) return false;
+        if(isBlocked(x,y)) return false;
+        return true;
+    }
+
+    bool isGoal(State s){
+        return (s.x==1 && s.y==1 &&
+                s.c1 && s.c2 && s.c3 && s.c4);
+    }
+
+    void collectCoins(State &s){
+        if(s.x==2 && s.y==2) s.c1=true;
+        if(s.x==3 && s.y==3) s.c2=true;
+        if(s.x==5 && s.y==7) s.c3=true;
+        if(s.x==6 && s.y==5) s.c4=true;
+    }
+
+    void refillFuel(State &s){
+        if(s.x==4 && s.y==9) s.fuel=20;
+    }
+
+    vector<State> getNextStates(State cur){
+
+        vector<State> next;
+
+        int dx[]={1,-1,0,0};
+        int dy[]={0,0,1,-1};
+        string mv[]={"R ","L ","U ","D "};
+
+        for(int i=0;i<4;i++){
+
+            int nx=cur.x+dx[i];
+            int ny=cur.y+dy[i];
+
+            if(!isValid(nx,ny)) continue;
+            if(cur.fuel<=0) continue;
+
+            State ns=cur;
+
+            ns.x=nx;
+            ns.y=ny;
+            ns.fuel--;
+            ns.g=cur.g+1;
+
+            collectCoins(ns);
+            refillFuel(ns);
+
+            ns.path+=mv[i];
+
+            next.push_back(ns);
+        }
+
+        return next;
+    }
+};
+
