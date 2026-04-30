@@ -109,3 +109,70 @@ public:
     }
 };
 
+/*====================================================
+   HEURISTICS
+====================================================*/
+class Heuristic {
+public:
+
+    static int manhattan(int x1,int y1,int x2,int y2){
+        return abs(x1-x2)+abs(y1-y2);
+    }
+
+    /* h1 = Nearest Neighbor Sum الحقيقي */
+    static int h1(State s){
+
+        vector<pair<int,int>> coins;
+
+        if(!s.c1) coins.push_back({2,2});
+        if(!s.c2) coins.push_back({3,3});
+        if(!s.c3) coins.push_back({5,7});
+        if(!s.c4) coins.push_back({6,5});
+
+        int cx=s.x, cy=s.y;
+        int total=0;
+
+        while(!coins.empty()){
+
+            int best=9999, idx=0;
+
+            for(int i=0;i<coins.size();i++){
+                int d=manhattan(cx,cy,
+                                coins[i].first,
+                                coins[i].second);
+
+                if(d<best){
+                    best=d;
+                    idx=i;
+                }
+            }
+
+            total+=best;
+            cx=coins[idx].first;
+            cy=coins[idx].second;
+
+            coins.erase(coins.begin()+idx);
+        }
+
+        total+=manhattan(cx,cy,1,1);
+
+        return total;
+    }
+
+    static int h2(State s){
+
+        int mx=0;
+
+        if(!s.c1) mx=max(mx,manhattan(s.x,s.y,2,2));
+        if(!s.c2) mx=max(mx,manhattan(s.x,s.y,3,3));
+        if(!s.c3) mx=max(mx,manhattan(s.x,s.y,5,7));
+        if(!s.c4) mx=max(mx,manhattan(s.x,s.y,6,5));
+
+        if(mx==0)
+            mx=manhattan(s.x,s.y,1,1);
+
+        return mx;
+    }
+};
+
+
