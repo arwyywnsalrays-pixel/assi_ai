@@ -1,0 +1,50 @@
+Test 1
+Greedy Cost=21
+Greedy Path=U L L D D D R R U D D R L L L D D L D L D 
+Greedy Expanded=2336
+Greedy Generated=3400
+A* Cost=17
+A* Path=U L R D D D D R D L L L D L D L D 
+A* Expanded=599
+A* Generated=990
+-------------------
+Test 2
+Greedy Cost=26
+Greedy Path=R R U U U U R L D D D R R U D D R L L L D D L D L D 
+Greedy Expanded=2890
+Greedy Generated=4274
+A* Cost=22
+A* Path=R U R U U U R R D D D D R D D L L L L D L D 
+A* Expanded=958
+A* Generated=1320
+-------------------
+Test 3
+Greedy Cost=14
+Greedy Path=L L D D R L L L D D L D L D 
+Greedy Expanded=635
+Greedy Generated=935
+A* Cost=14
+A* Path=L L D D R L L L D D L D L D 
+A* Expanded=372
+A* Generated=713
+-------------------
+Test 4
+Greedy Cost=19
+Greedy Path=D D D R R R U D D R L L L D D L D L D 
+Greedy Expanded=2441
+Greedy Generated=3640
+A* Cost=17
+A* Path=R R R D D D D R D L L L D L D L D 
+A* Expanded=642
+A* Generated=1081
+-------------------
+Test 5
+Greedy Cost=30
+Greedy Path=L L L U U U U U U U R L D D D R R U D D R L L L L D D D L D 
+Greedy Expanded=2419
+Greedy Generated=3615
+A* Cost=20
+A* Path=U U U L U U U U L L D D D D D D L D D L 
+A* Expanded=1041
+A* Generated=1315
+-------------------
